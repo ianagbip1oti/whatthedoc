@@ -2,6 +2,7 @@ require_relative 'whatthedoc_jars'
 java_import com.github.princesslana.smalld.SmallD
 
 require_relative 'js'
+require_relative 'responses'
 
 require 'json'
 require 'hash_dot'
@@ -14,16 +15,10 @@ module Echo
   end
 end
 
-
 $languages = {
-  echo: Echo
+  echo: Echo,
+  js: JavaScript.new
 }
-
-class String
-  def to_msg
-    { content: self }
-  end
-end
 
 class SmallD
   alias_method :post_string, :post

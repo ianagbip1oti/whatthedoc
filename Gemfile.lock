@@ -3,12 +3,14 @@ PATH
   specs:
     whatthedoc (0.0.0-java)
       hash_dot (= 2.4.1)
+      nokogiri (= 1.10.3)
 
 GEM
   remote: https://rubygems.org/
   specs:
     hash_dot (2.4.1)
     jar-dependencies (0.4.0)
+    nokogiri (1.10.3-java)
     rake (12.3.2)
 
 PLATFORMS
