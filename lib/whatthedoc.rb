@@ -6,6 +6,24 @@ require_relative 'js'
 require 'json'
 require 'hash_dot'
 
+$prefix = '++'
+
+module Echo
+  def self.query(q)
+    q
+  end
+end
+
+
+$languages = {
+  echo: Echo
+}
+
+class String
+  def to_msg
+    { content: self }
+  end
+end
 
 class SmallD
   alias_method :post_string, :post
@@ -26,6 +44,18 @@ end
 
 SmallD.run(ENV['SMALLD_TOKEN']) do |smalld|
   smalld.on_message_create do |msg|
-    smalld.post "/channels/#{msg.channel_id}/messages", content: 'pong' if msg.content == '++ping'
+    next if msg.author&.fetch('bot', false)
+    next unless msg.content.start_with? $prefix
+
+    content = msg.content[$prefix.length..-1]
+
+    lang, *query = content.split
+
+    handler = $languages[lang.to_sym]
+    next unless handler
+
+    response = handler.query(query.join ' ').to_msg
+
+    smalld.post "/channels/#{msg.channel_id}/messages", response
   end
 end
