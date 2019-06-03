@@ -27,5 +27,12 @@ RSpec.describe do
       )
     end
   end
+
+  context 'when invalid query' do
+    let(:query) { 'bad query' }
+
+    it { is_expected.to be_kind_of(Error) }
+    its(:message) { is_expected.to_not be_nil }
+  end
 end
 
