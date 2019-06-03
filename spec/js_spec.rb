@@ -26,6 +26,26 @@ RSpec.describe do
         SYNTAX
       )
     end
+
+    its(:parameters) do
+      is_expected.to eq([
+        Parameter.new(
+          'callback', 
+          'Function to execute for each element, taking three arguments'),
+        Parameter.new(
+          'currentValue',
+          'The value of the current element being processed in the array.'),
+        Parameter.new(
+          'index',
+          'The index of the current element being processed in the array.'),
+        Parameter.new(
+          'array',
+          'The array that forEach() is being applied to.'),
+        Parameter.new(
+          'thisArg',
+          'Value to use as this (i.e the reference Object) when executing callback')
+      ])
+    end
   end
 
   context 'when invalid query' do

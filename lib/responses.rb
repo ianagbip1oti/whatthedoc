@@ -5,7 +5,7 @@ class String
   end
 
   def first_sentence
-    self.split('. ').first
+    self.split(/[\.:] /).first.strip
   end
 end
 
@@ -15,7 +15,10 @@ Error = Struct.new(:message) do
   end
 end
 
-Function = Struct.new(:name, :signature, :description, :returns, keyword_init: true) do
+Parameter = Struct.new(:name, :description)
+
+Function = Struct.new(
+  :name, :signature, :description, :parameters, :returns, keyword_init: true) do
   def to_msg
     to_s.to_msg
   end
