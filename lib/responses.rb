@@ -5,38 +5,22 @@ class String
   end
 
   def first_sentence
-    self.split('. ').first
+    self.split(/[\.:] /).first.strip
   end
 end
 
-class Error
-  attr_reader :message
-
-  def initialize(msg)
-    @message = msg
-  end
-
+Error = Struct.new(:message) do
   def to_msg
     "Error: #{message}".to_msg
   end
 end
 
+Parameter = Struct.new(:name, :description)
 
-class Function
-  Parameter = Struct.new(:name, :description)
-
-  attr_reader :name, :signature, :description, :parameters, :returns
-
-  def initialize(name:, signature: '', description: '', returns: '')
-    @name = name
-    @signature = signature
-    @description = description
-    @parameters = []
-    @returns = returns
-  end
-
+Function = Struct.new(
+  :name, :signature, :description, :parameters, :returns, keyword_init: true) do
   def to_msg
-    "Name: #{name}\nSignature: #{signature}\nDescription: #{description}\nReturns: #{returns}".to_msg
+    to_s.to_msg
   end
 end
 

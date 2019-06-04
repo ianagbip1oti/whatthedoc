@@ -30,6 +30,14 @@ class JavaScript
     syntax = html.at_xpath('//pre[@class="syntaxbox"]')&.content
     ret = html.at_xpath('//h3[@id="Return_value"]').next_element.content
 
-    Function.new name: name, description: desc, signature: syntax, returns: ret
+    parameters = html.xpath('//dt').map do |dt|
+      pname = dt.at_xpath('code').content
+      pdescription = dt.next_element.content.first_sentence
+
+      Parameter.new pname, pdescription
+    end
+
+    Function.new(
+      name: name, description: desc, signature: syntax, parameters: parameters, returns: ret)
   end
 end
