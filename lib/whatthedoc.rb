@@ -16,6 +16,7 @@ module Echo
 end
 
 $languages = {
+  css: Css.new,
   echo: Echo,
   js: JavaScript.new
 }
