@@ -54,5 +54,12 @@ RSpec.describe do
     it { is_expected.to be_kind_of(Error) }
     its(:message) { is_expected.to_not be_nil }
   end
+
+  context 'when query not found' do
+    let(:query) { 'Array.thisMethodDoesNotExist' }
+
+    it { is_expected.to be_kind_of(Error) }
+    its(:message) { is_expected.to_not be_nil }
+  end
 end
 

@@ -1,14 +1,12 @@
 
+require_relative 'devdocs'
 require_relative 'responses'
 
 require 'json'
 require 'nokogiri'
 
 class JavaScript
-
-  def devdocs
-    @@devdocs ||= JSON.parse(File.read(File.join(File.dirname(__FILE__), 'db.json')))
-  end
+  include DevDocs.new 'js.json'
 
   def query(q)
     object, method = q.split('.')
@@ -17,7 +15,7 @@ class JavaScript
 
     docs = devdocs["global_objects/#{object.downcase}/#{method.downcase}"]
 
-    return Error.new("Could not find #{object}.#{method}") unless docs
+    return Error.not_found(q) unless docs
 
     to_function docs
   end
@@ -27,7 +25,7 @@ class JavaScript
 
     name = html.at_xpath('//h1').content
     desc = html.at_xpath('//p').content.first_sentence
-    syntax = html.at_xpath('//pre[@class="syntaxbox"]')&.content
+    syntax = html.at_xpath('//h2[@id="Syntax"]').next_element.content
     ret = html.at_xpath('//h3[@id="Return_value"]').next_element.content
 
     parameters = html.xpath('//dt').map do |dt|

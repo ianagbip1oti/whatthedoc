@@ -7,7 +7,10 @@ RSpec.configure do |config|
 
   config.disable_monkey_patching!
   config.warnings = true
-  config.default_formatter = "doc"
+
+  config.formatter = :documentation
+  config.color = true
+  config.tty = true
 
   config.order = :random
   Kernel.srand config.seed
