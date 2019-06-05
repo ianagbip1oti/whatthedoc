@@ -1,6 +1,7 @@
 require_relative 'whatthedoc_jars'
 java_import com.github.princesslana.smalld.SmallD
 
+require_relative 'css'
 require_relative 'js'
 require_relative 'responses'
 
@@ -43,9 +44,7 @@ SmallD.run(ENV['SMALLD_TOKEN']) do |smalld|
     next if msg.author&.fetch('bot', false)
     next unless msg.content.start_with? $prefix
 
-    content = msg.content[$prefix.length..-1]
-
-    lang, *query = content.split
+    lang, *query = msg.content[$prefix.length..-1].split
 
     handler = $languages[lang.to_sym]
     next unless handler
