@@ -23,8 +23,20 @@ Parameter = Struct.new(:name, :description)
 
 Function = Struct.new(
   :name, :signature, :description, :parameters, :returns, keyword_init: true) do
+
   def to_msg
-    to_s.to_msg
+    { embed: 
+      {
+        title: "```#{name}```",
+        description: "#{description}\n\n```#{signature}```",
+        fields: [
+          { name: "Parameters",
+            value: parameters.map { |p| "**#{p.name}** - #{p.description}" }.join("\n")
+          },
+          { name: "Returns", value: returns }
+        ]
+      }
+    }
   end
 end
 

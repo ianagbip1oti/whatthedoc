@@ -6,7 +6,17 @@ Value = Struct.new(:name, :description)
 
 CssResponse = Struct.new(:name, :description, :signature, :values, keyword_init: true) do
   def to_msg
-    to_s.to_msg
+    { embed: 
+      {
+        title: "```#{name}```",
+        description: "#{description}\n\n```#{signature}```",
+        fields: [
+          { name: "Values",
+            value: values.map { |v| "**#{v.name}** - #{v.description}" }.join("\n")
+          }
+        ]
+      }
+    }
   end
 
   def self.parse(html_s)
@@ -16,8 +26,8 @@ CssResponse = Struct.new(:name, :description, :signature, :values, keyword_init:
     desc = html.at_xpath('//p').content.first_sentence
     syntax = html.at_xpath('//h2[@id="Syntax"]').next_element.content.chomp
 
-    values = html.xpath('//dt').map do |dt|
-      vname = dt.at_xpath('code').content
+    values = html.at_xpath('//h3[@id="Values"]').next_element.xpath('.//dt').map do |dt|
+      vname = dt.at_xpath('.//code').content
       vdescription = dt.next_element.content.first_sentence
 
       Value.new vname, vdescription

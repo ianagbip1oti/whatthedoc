@@ -56,6 +56,12 @@ RSpec.describe do
     end
   end
 
+  context 'when query margin' do
+    let(:query) { 'margin' }
+
+    its(:name) { is_expected.to eq('margin') }
+  end
+
   context 'when query not found' do
     let(:query) { 'thing-that-does-not-exist' }
 
