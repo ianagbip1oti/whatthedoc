@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
     s.requirements << 'jar org.slf4j, slf4j-simple, 1.7.25'
 
     s.add_dependency 'hash_dot', '2.4.1'
-    s.add_dependency 'nokogiri', '1.10.3'
+    s.add_dependency 'nokogiri', '1.14.3'
 
     s.add_development_dependency 'jar-dependencies', '0.4.0'
     s.add_development_dependency 'rake', '12.3.2'
